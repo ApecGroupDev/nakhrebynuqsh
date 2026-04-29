@@ -33,7 +33,7 @@ export function CollectionCard({
           {name}
         </h3>
         <p className="text-sm text-white/70 mb-4 max-w-xs">{description}</p>
-        <span className="inline-flex items-center text-xs tracking-[0.2em] uppercase text-white/80 group-hover:text-gold transition-colors duration-300">
+        <span className="inline-flex items-center text-xs tracking-[0.2em] uppercase text-white/80 group-hover:text-accent transition-colors duration-300">
           Explore Collection &rarr;
         </span>
       </div>
