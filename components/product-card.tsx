@@ -33,7 +33,7 @@ export function ProductCard({
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/5 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/5 transition-colors duration-500" />
       </div>
       <div className="mt-4 space-y-1">
         <p className="text-[10px] tracking-[0.2em] uppercase text-muted">
