@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ShoppingBag, Search } from "lucide-react";
+import { Menu, X, ShoppingBag, Search, User, LogOut } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { signOutAction } from "@/app/actions/auth";
 
 const links = [
   { href: "/shop", label: "Shop" },
@@ -13,8 +14,15 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Navbar() {
+type NavbarUser = {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+} | null;
+
+export function Navbar({ user }: { user?: NavbarUser }) {
   const [open, setOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-foreground/5">
@@ -79,6 +87,62 @@ export function Navbar() {
             >
               <Search className="w-5 h-5" />
             </button>
+
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setAccountOpen((v) => !v)}
+                  onBlur={() => setTimeout(() => setAccountOpen(false), 150)}
+                  className="p-2 hover:text-accent transition-colors duration-200 flex items-center"
+                  aria-label="Account"
+                  aria-haspopup="menu"
+                  aria-expanded={accountOpen}
+                >
+                  {user.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={user.image}
+                      alt=""
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-5 h-5" />
+                  )}
+                </button>
+                {accountOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-background border border-foreground/10 shadow-lg py-3">
+                    <div className="px-4 pb-3 border-b border-foreground/10">
+                      <p className="font-serif text-sm truncate">
+                        {user.name ?? "Welcome"}
+                      </p>
+                      {user.email && (
+                        <p className="text-[11px] text-muted truncate mt-0.5">
+                          {user.email}
+                        </p>
+                      )}
+                    </div>
+                    <form action={signOutAction}>
+                      <button
+                        type="submit"
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-[11px] tracking-[0.2em] uppercase text-muted hover:text-accent hover:bg-accent-soft/30 transition-colors"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        Sign Out
+                      </button>
+                    </form>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="p-2 hover:text-accent transition-colors duration-200"
+                aria-label="Sign in"
+              >
+                <User className="w-5 h-5" />
+              </Link>
+            )}
+
             <Link
               href="/shop"
               className="p-2 hover:text-accent transition-colors duration-200"
