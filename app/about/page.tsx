@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About | Nakhre by Nuqsh",
   description:
-    "The story behind Nakhre by Nuqsh — where tradition meets contemporary elegance.",
+    "The story behind Nakhré by Nuqsh — designed in Atlanta, crafted in Pakistan. Handwork pret & embroidered festive wear.",
 };
 
 export default function AboutPage() {
@@ -12,13 +12,13 @@ export default function AboutPage() {
     <div>
       {/* Hero */}
       <section className="py-24 lg:py-32 text-center px-6">
-        <p className="text-xs tracking-[0.3em] uppercase text-gold mb-6">
-          Our Story
+        <p className="text-[11px] tracking-[0.35em] uppercase text-accent mb-6">
+          — The Studio
         </p>
-        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl max-w-2xl mx-auto leading-tight">
-          Crafting Elegance,
+        <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl max-w-3xl mx-auto leading-[1.05]">
+          A small studio,
           <br />
-          <span className="italic">One Piece at a Time</span>
+          <span className="italic">a slow obsession.</span>
         </h1>
       </section>
 
@@ -38,23 +38,32 @@ export default function AboutPage() {
       {/* Story */}
       <section className="max-w-3xl mx-auto px-6 py-20 lg:py-32">
         <div className="space-y-8 text-muted leading-relaxed">
-          <p className="text-lg">
-            Nakhre by Nuqsh was born from a deep reverence for artisanal
-            craftsmanship and a desire to bring traditional aesthetics into
-            contemporary life.
+          <p className="text-xl text-foreground font-serif italic leading-relaxed">
+            Nakhré by Nuqsh is for the woman who carries her heritage
+            like jewellery — quietly, beautifully, on her own terms.
           </p>
           <p>
-            Each piece in our collection is a testament to the skilled hands
-            that create it — from the intricate threadwork of our clothing line
-            to the delicate metalwork of our jewellery. We believe that true
-            luxury lies not in opulence, but in the story behind every stitch
-            and every setting.
+            We&apos;re a small studio in Atlanta, Georgia, designing slowly
+            and sending each design home to Pakistan — where every kurta,
+            every dupatta, every handwork suit ends in the careful hands of
+            artisans we&apos;ve known for years. No factories. No fast
+            fashion. Just slow, deliberate stitching — the kind that takes
+            weeks because it should.
           </p>
           <p>
-            Our name, &ldquo;Nakhre,&rdquo; speaks to the quiet confidence and
-            grace that comes from wearing something truly special.
-            &ldquo;Nuqsh&rdquo; — meaning pattern or impression — represents
-            the indelible mark that artistry leaves on everything it touches.
+            <em className="font-serif italic text-foreground">Nakhré </em>
+            — that untranslatable Urdu word for the playful, knowing
+            confidence of someone who knows her worth. And
+            <em className="font-serif italic text-foreground"> nuqsh </em>
+            — the imprint, the pattern, the mark we leave behind. Together,
+            they&apos;re the brief: clothes for your most
+            <em className="font-serif italic text-foreground"> nakhré wale </em>
+            moments, marked with the imprint of a hundred hands.
+          </p>
+          <p>
+            We launched in soft mode in 2026 — with a tiny capsule of
+            handwork pret and a promise to grow only as fast as the craft
+            allows.
           </p>
         </div>
       </section>
@@ -63,31 +72,34 @@ export default function AboutPage() {
       <section className="bg-foreground/[0.02] py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.3em] uppercase text-gold mb-4">
-              What We Stand For
+            <p className="text-[11px] tracking-[0.35em] uppercase text-accent mb-4">
+              — The Practice
             </p>
-            <h2 className="font-serif text-3xl lg:text-4xl">Our Values</h2>
+            <h2 className="font-serif text-3xl lg:text-5xl">
+              How we <span className="italic">work.</span>
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
             {[
               {
-                title: "Artisan Craft",
-                text: "Every piece is handcrafted by skilled artisans, preserving techniques passed down through generations.",
+                title: "Slow, by hand",
+                text: "Every kurta is hand-embroidered in small batches by artisans we work with directly. No outsourced factories, no shortcuts.",
               },
               {
-                title: "Sustainable Luxury",
-                text: "We source responsibly and produce mindfully, ensuring beauty doesn\u2019t come at the cost of our planet.",
+                title: "Atlanta × Pakistan",
+                text: "Designed at our Atlanta studio, hand-embroidered by karigars in Pakistan. Two homes, one obsession with craft.",
               },
               {
-                title: "Timeless Design",
-                text: "Our designs transcend trends, creating pieces that become cherished parts of your personal story.",
+                title: "Quietly luxurious",
+                text: "We don&apos;t do logos or loud branding. The luxury is in the weight of the fabric and the density of the handwork.",
               },
             ].map((value) => (
               <div key={value.title} className="text-center">
                 <h3 className="font-serif text-xl mb-4">{value.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  {value.text}
-                </p>
+                <p
+                  className="text-sm text-muted leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: value.text }}
+                />
               </div>
             ))}
           </div>
