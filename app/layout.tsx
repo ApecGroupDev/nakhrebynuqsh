@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { ChromeGate } from "@/components/chrome-gate";
 import { auth } from "@/auth";
 
 const geistSans = Geist({
@@ -58,9 +59,13 @@ export default async function RootLayout({
           }}
         />
         <ThemeProvider>
-          <Navbar user={session?.user ?? null} />
+          <ChromeGate hidePrefixes={["/admin"]}>
+            <Navbar user={session?.user ?? null} />
+          </ChromeGate>
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ChromeGate hidePrefixes={["/admin"]}>
+            <Footer />
+          </ChromeGate>
         </ThemeProvider>
       </body>
     </html>

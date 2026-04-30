@@ -18,6 +18,7 @@ type NavbarUser = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
+  role?: string;
 } | null;
 
 export function Navbar({ user }: { user?: NavbarUser }) {
@@ -121,6 +122,15 @@ export function Navbar({ user }: { user?: NavbarUser }) {
                         </p>
                       )}
                     </div>
+                    {user.role === "admin" && (
+                      <Link
+                        href="/admin/products"
+                        className="flex items-center gap-2 px-4 py-2.5 text-[11px] tracking-[0.2em] uppercase text-muted hover:text-accent hover:bg-accent-soft/30 transition-colors"
+                      >
+                        <span aria-hidden>★</span>
+                        Admin
+                      </Link>
+                    )}
                     <form action={signOutAction}>
                       <button
                         type="submit"

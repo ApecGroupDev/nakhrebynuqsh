@@ -6,6 +6,7 @@ type ProductCardProps = {
   price: string;
   category: string;
   image: string;
+  slug?: string;
   href?: string;
   aspectRatio?: "portrait" | "square";
 };
@@ -15,11 +16,13 @@ export function ProductCard({
   price,
   category,
   image,
-  href = "/shop",
+  slug,
+  href,
   aspectRatio = "portrait",
 }: ProductCardProps) {
+  const linkHref = href ?? (slug ? `/shop/${slug}` : "/shop");
   return (
-    <Link href={href} className="group">
+    <Link href={linkHref} className="group">
       <div
         className={`relative overflow-hidden bg-foreground/[0.03] ${
           aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"

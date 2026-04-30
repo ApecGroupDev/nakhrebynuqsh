@@ -2,15 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { CollectionCard } from "@/components/collection-card";
+import { getFeaturedProducts } from "@/lib/products";
+import { formatPrice } from "@/lib/format";
 
-const featuredProducts = [
-  { name: "Gulposh Handwork Kurta", price: "$148.00", category: "Festive Pret", image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&h=800&fit=crop" },
-  { name: "Mehrab Embroidered Suit", price: "$225.00", category: "Festive", image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&h=800&fit=crop" },
-  { name: "Roshni Anarkali", price: "$295.00", category: "Festive", image: "https://images.unsplash.com/photo-1614786269829-d24616faf56d?w=600&h=800&fit=crop" },
-  { name: "Noor Organza Dupatta", price: "$78.00", category: "Accessories", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop" },
-];
-
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredProducts = await getFeaturedProducts(4);
   return (
     <>
       {/* Soft launch ticker */}
@@ -163,9 +159,10 @@ export default function HomePage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {featuredProducts.map((product) => (
             <ProductCard
-              key={product.name}
+              key={product.id}
+              slug={product.slug}
               name={product.name}
-              price={product.price}
+              price={formatPrice(product.priceCents)}
               category={product.category}
               image={product.image}
             />
