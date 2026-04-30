@@ -61,14 +61,30 @@ export async function loginAction(
     });
     return undefined;
   } catch (err) {
+    if (isNextRedirect(err)) {
+      throw err;
+    }
     if (err instanceof AuthError) {
       if (err.type === "CredentialsSignin") {
         return { error: "Invalid email or password." };
       }
+      console.error("[loginAction] AuthError:", err);
       return { error: "Could not sign in. Please try again." };
     }
-    throw err;
+    console.error("[loginAction] unexpected error:", err);
+    return { error: "Something went wrong signing you in. Please try again." };
   }
+}
+
+function isNextRedirect(err: unknown): boolean {
+  // signIn() throws a NEXT_REDIRECT error on success — we must let it propagate.
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "digest" in err &&
+    typeof (err as { digest?: unknown }).digest === "string" &&
+    (err as { digest: string }).digest.startsWith("NEXT_REDIRECT")
+  );
 }
 
 export async function signupAction(
@@ -86,24 +102,34 @@ export async function signupAction(
 
   const { name, email, password } = parsed.data;
 
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) {
-    return { fieldErrors: { email: "An account with this email already exists." } };
-  }
+  try {
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return { fieldErrors: { email: "An account with this email already exists." } };
+    }
 
-  const hashed = await bcrypt.hash(password, 12);
-  await prisma.user.create({
-    data: { name, email, password: hashed },
-  });
+    const hashed = await bcrypt.hash(password, 12);
+    await prisma.user.create({
+      data: { name, email, password: hashed },
+    });
+  } catch (err) {
+    console.error("[signupAction] failed to create user:", err);
+    return { error: "We couldn't create your account right now. Please try again in a moment." };
+  }
 
   try {
     await signIn("credentials", { email, password, redirectTo: "/" });
     return undefined;
   } catch (err) {
-    if (err instanceof AuthError) {
-      return { error: "Account created, but sign-in failed. Try logging in." };
+    if (isNextRedirect(err)) {
+      // Success — let Next.js perform the redirect.
+      throw err;
     }
-    // Re-throw so Next.js can handle the redirect signal from signIn().
-    throw err;
+    if (err instanceof AuthError) {
+      console.error("[signupAction] AuthError after signup:", err);
+      return { error: "Account created, but sign-in failed. Please try logging in." };
+    }
+    console.error("[signupAction] unexpected error during signIn:", err);
+    return { error: "Account created, but something went wrong signing you in. Please try logging in." };
   }
 }
